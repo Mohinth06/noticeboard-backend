@@ -208,6 +208,17 @@ app.get("/old-board", (req, res) => {
 });
 
 // ============================================
+// Redirect to Deployed React App (Render)
+// WHY: Provides a named route on the main server
+//      that takes the user to the React frontend.
+// HOW: 302 redirect → browser navigates to Render URL
+// ============================================
+app.get("/react", (req, res) => {
+    res.redirect("https://noticeboard-react-1.onrender.com/");
+});
+
+
+// ============================================
 // 8. Basic Idea of Routing (Switch statement, http Module equivalent)
 // Creating Server using standard http module just to demonstrate URL-based routing purely.
 // HTTP Request & Response, Structure of Request/Response
