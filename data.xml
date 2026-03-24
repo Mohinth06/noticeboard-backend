@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE notices [
+  <!ELEMENT notices (notice+)>
+  <!ELEMENT notice (title, content, date, author)>
+  <!ATTLIST notice 
+    id ID #REQUIRED
+    type CDATA #IMPLIED
+    fixedAttr CDATA #FIXED "department">
+  <!ELEMENT title (#PCDATA)>
+  <!ELEMENT content (#PCDATA)>
+  <!ELEMENT date (#PCDATA)>
+  <!ELEMENT author (#PCDATA)>
+]>
+<notices>
+    <notice id="n1" type="Urgent">
+        <title>Blood Donation Camp</title>
+        <content>The CS Department is organizing a blood donation camp. All are requested to participate.</content>
+        <date>2026-03-24</date>
+        <author>HOD</author>
+    </notice>
+    <notice id="n2" type="Event">
+        <title>Tech Fest 2026</title>
+        <content>Annual Tech Fest registrations are open. Submit your names to class CR.</content>
+        <date>2026-04-10</date>
+        <author>Cultural Sec</author>
+    </notice>
+</notices>

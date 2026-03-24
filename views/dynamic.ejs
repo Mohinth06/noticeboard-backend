@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%= title %></title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #fce4ec;
+            color: #880e4f;
+            padding: 2rem;
+            margin: 0;
+        }
+        h1 { color: #d81b60; margin-bottom: 0.5rem; }
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            max-width: 720px;
+            margin: 0 auto;
+        }
+        .label {
+            display: inline-block;
+            background: #fce7f3;
+            color: #9d174d;
+            border: 1px solid #fbcfe8;
+            border-radius: 999px;
+            padding: 4px 14px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        .time-box {
+            background: #fff0f6;
+            border: 1px solid #f9a8d4;
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+        }
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 1.5rem;
+        }
+        .nav-links a {
+            background: #ec4899;
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.88rem;
+            transition: background 0.2s;
+        }
+        .nav-links a:hover { background: #be185d; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="label">⚙️ Server-Side Rendered — EJS Template</div>
+        <h1><%= title %> — EJS Template</h1>
+        <p>This page is <strong>dynamically rendered</strong> by Express using the EJS view engine.</p>
+        <p>The same data is also available as a JSON API at <code>/api/dynamic</code> for React and Angular to consume.</p>
+        <div class="time-box">
+            🕐 Server Time: <strong><%= serverTime %></strong>
+        </div>
+        <div class="nav-links">
+            <a href="/">⬅ Vanilla JS Board</a>
+            <a href="http://localhost:5173/ejs-demo" target="_blank">⚛ React App — EJS Demo</a>
+            <a href="http://localhost:4200" target="_blank">🅰 Angular App — EJS Demo</a>
+        </div>
+    </div>
+</body>
+</html>

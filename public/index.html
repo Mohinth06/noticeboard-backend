@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Department Notice Board (Vanilla JS)</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f3f4f6; margin: 0; padding: 20px; color: #333; }
+        .header { display: flex; justify-content: space-between; align-items: center; background: #2563eb; color: white; padding: 15px 30px; border-radius: 8px; margin-bottom: 20px; }
+        .clock { font-size: 1.2rem; font-weight: bold; }
+        .container { max-width: 900px; margin: auto; }
+        .notice-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+        .notice-card { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: transform 0.2s; position: relative; }
+        .notice-card:hover { transform: translateY(-5px); }
+        .badge { display: inline-block; padding: 4px 8px; font-size: 0.8rem; border-radius: 4px; background: #e0e7ff; color: #4338ca; margin-bottom: 10px; }
+        .urgent { background: #fee2e2; color: #991b1b; }
+        .delete-btn { position: absolute; top: 10px; right: 10px; background: #ef4444; color: white; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer; }
+        .nav-links { background: white; padding: 15px; border-radius: 8px; display: flex; gap: 15px; margin-bottom: 20px; }
+        .nav-links a { color: #2563eb; text-decoration: none; font-weight: bold; }
+        .input-group { margin: 15px 0; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .input-group input, .input-group button { padding: 10px; margin-right: 10px; border: 1px solid #ccc; border-radius: 4px; }
+        .input-group button { background: #10b981; color: white; cursor: pointer; border: none; }
+        #timer-box { font-size: 1.2rem; color: #d97706; margin-top: 10px; }
+    </style>
+
+    <!-- Embedding XML in HTML -->
+    <script id="embedded-xml" type="text/xml">
+        <?xml version="1.0" encoding="UTF-8"?>
+        <notices>
+            <notice id="embedded1" type="System">
+                <title>Server Maintenance</title>
+                <content>Scheduled downtime on Saturday 2 AM. Plan accordingly.</content>
+                <date>2026-03-22</date>
+                <author>IT Dept</author>
+            </notice>
+        </notices>
+    </script>
+</head>
+<body onload="initializeBoard()"> <!-- Inline Event Handler -->
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div>
+                <h1>Notice Board (Vanilla JS)</h1>
+                <p>Advanced DOM Manipulation & Event Handling</p>
+            </div>
+            <!-- Digital Clock -->
+            <div id="clock" class="clock">00:00:00</div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="nav-links">
+            <a href="http://localhost:5173/" target="_blank">View React App</a>
+            <a href="http://localhost:4200/" target="_blank">View Angular App</a>
+            <a href="/dynamic">View EJS Page</a>
+        </div>
+
+        <!-- Timer / Type Conversion Demo -->
+        <div class="input-group">
+            <h3>Countdown Timer Demo</h3>
+            <input type="text" id="seconds-input" placeholder="Seconds to countdown">
+            <button onclick="startCountdown()">Start Timer</button>
+            <button onmouseover="changeHoverText(event)" onmouseout="resetHoverText(event)">Hover Me</button>
+            <div id="timer-box">Enter seconds and click start.</div>
+        </div>
+        
+        <!-- Display Container -->
+        <h2>Notices</h2>
+        <div id="notice-list" class="notice-container">
+            <!-- Notices will be injected via JS -->
+        </div>
+    </div>
+
+    <!-- External JavaScript File -->
+    <script src="script.js"></script>
+</body>
+</html>

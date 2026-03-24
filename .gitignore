@@ -1,0 +1,6 @@
+node_modules
+.env
+streamed_data_backup.json
+actions.log
+demo_dir
+*.pem

@@ -1,0 +1,24 @@
+{
+  "name": "noticeboard",
+  "version": "1.0.0",
+  "description": "Smart Notice Board — MERN/MEAN full-stack demo",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "build:react": "cd react-app && npm install && npm run build",
+    "build:angular": "cd angular-app && npm install && npm run build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^16.6.1",
+    "ejs": "^5.0.1",
+    "express": "^5.2.1",
+    "lodash": "^4.17.23",
+    "mongoose": "^9.3.1"
+  }
+}
