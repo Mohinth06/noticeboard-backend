@@ -234,19 +234,7 @@ document.body.addEventListener("click", function (event) {
     }
 });
 
-// onkeyup event via JS Event Listeners hook instead of inline, fulfills Advanced Event requirement combinations
-document.getElementById("seconds-input").addEventListener("keyup", function (e) {
-    console.log("onkeyup executed:", e.target.value);
-});
 
-function changeHoverText(event) {
-    event.target.textContent = "Hovered!";
-    event.target.style.background = "#2563eb";
-}
-function resetHoverText(event) {
-    event.target.textContent = "Hover Me";
-    event.target.style.background = "#10b981";
-}
 
 // ============================================
 // 14. Timing Functions
@@ -311,11 +299,7 @@ function initializeBoard() {
         LocalStorageDemo.saveUsername("Notice User");
     }
 
-    // Auto-save search term whenever user types in seconds-input
-    // (reusing existing input for demo; in real app would be a search box)
-    document.getElementById("seconds-input").addEventListener("input", function (e) {
-        LocalStorageDemo.saveSearchTerm(e.target.value);
-    });
+
 
     // Load embedded XML then fetch external
     loadEmbeddedXML();
