@@ -146,19 +146,8 @@ const timer = setInterval(() => {
 const app = express();
 
 // Dynamic CORS — allows local dev + deployed Vercel frontends
-const allowedOrigins = [
-    'http://localhost:5173',  // React dev
-    'http://localhost:4200',  // Angular dev
-    process.env.REACT_URL,    // deployed React on Vercel
-    process.env.ANGULAR_URL,  // deployed Angular on Vercel
-].filter(Boolean);
-
 app.use(cors({
-    origin: function(origin, callback) {
-        // Allow requests with no origin (mobile apps, curl, Postman)
-        if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
-        callback(new Error('CORS: Origin not allowed: ' + origin));
-    },
+    origin: true, // Sets Access-Control-Allow-Origin to the requesting origin (Allows all)
     methods: ['GET','POST','PUT','DELETE','OPTIONS'],
     credentials: true
 }));
