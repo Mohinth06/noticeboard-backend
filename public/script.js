@@ -205,14 +205,20 @@ function removeNotice(event) {
 
     // Traversing up to Parent Element (parentNode, parentElement)
     let card = targetElement.parentNode; // parentNode
+    let id = card.getAttribute("data-id");
 
-    // Siblings checks (previousElementSibling, nextSibling)
-    let sibling = card.previousElementSibling;
-    if (sibling) console.log(`Deleted notice that was after: ${sibling.querySelector('h3').textContent}`);
-    else console.log(`Deleted the very first notice. Next one is:`, card.nextSibling);
-
-    // .remove()
-    card.remove();
+    fetch(`https://noticeboard-backend-fwec.onrender.com/api/notices/${id}`, {
+        method: 'DELETE'
+    }).then(res => {
+        if(res.ok) {
+            // Siblings checks (previousElementSibling, nextSibling)
+            let sibling = card.previousElementSibling;
+            if (sibling && sibling.querySelector('h3')) console.log(`Deleted notice that was after: ${sibling.querySelector('h3').textContent}`);
+            
+            // .remove()
+            card.remove();
+        }
+    }).catch(err => console.error("Error deleting from server:", err));
 }
 
 // ============================================

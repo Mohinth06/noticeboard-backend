@@ -125,6 +125,40 @@ router.post("/notices", async (req, res) => {
 });
 
 // ============================================
+// DELETE /api/notices/:id — Delete a notice
+// ============================================
+router.delete("/notices/:id", async (req, res) => {
+    try {
+        const targetId = req.params.id;
+        
+        // MongoDB Delete
+        if (mongoose.connection.readyState === 1) {
+            try {
+                // Delete by 'id' attribute, not MongoDB '_id'
+                await Notice.deleteOne({ id: Number(targetId) }).maxTimeMS(3000);
+            } catch (dbErr) {
+                console.error("MongoDB DELETE error:", dbErr.message);
+            }
+        }
+
+        // Always delete from JSON fallback file
+        try {
+            const data = fs.readFileSync(path.join(__dirname, "..", "data.json"), "utf8");
+            let notices = JSON.parse(data);
+            const filteredNotices = notices.filter(n => n.id !== Number(targetId));
+            fs.writeFileSync(path.join(__dirname, "..", "data.json"), JSON.stringify(filteredNotices, null, 2), "utf8");
+        } catch (fsErr) {
+            console.error("File System DELETE Error:", fsErr.message);
+        }
+
+        res.status(200).json({ message: "Notice deleted successfully" });
+    } catch (error) {
+        console.error("Critical DELETE Error:", error);
+        res.status(500).send("Server Error");
+    }
+});
+
+// ============================================
 // GET /api/dynamic — EJS data as JSON
 // ============================================
 router.get("/dynamic", (req, res) => {
