@@ -62,31 +62,24 @@ router.all("/notices", (req, res, next) => {
 // ============================================
 router.get("/notices", async (req, res) => {
     try {
-        if (mongoose.connection.readyState !== 1) {
-            fs.readFile(path.join(__dirname, "..", "data.json"), "utf8", (err, data) => {
-                if (!err && data) res.status(200).json(JSON.parse(data));
-                else res.status(200).json([]);
-            });
-            return;
+        let notices = [];
+        if (mongoose.connection.readyState === 1) {
+            try {
+                notices = await Notice.find().maxTimeMS(3000); // 3-second timeout
+            } catch (dbErr) {
+                console.error("MongoDB GET timeout/error, falling back to JSON:", dbErr.message);
+            }
         }
-        const notices = await Notice.find();
-        if (notices.length === 0) {
-            fs.readFile(path.join(__dirname, "..", "data.json"), "utf8", async (err, data) => {
-                if (!err && data) {
-                    let parsed = JSON.parse(data);
-                    await Notice.insertMany(parsed);
-                    res.status(200).json(parsed);
-                } else {
-                    res.status(200).json([]);
-                }
-            });
-            return;
+
+        // Fallback to JSON if MongoDB is empty or unreachable
+        if (!notices || notices.length === 0) {
+            const data = fs.readFileSync(path.join(__dirname, "..", "data.json"), "utf8");
+            if (data) return res.status(200).json(JSON.parse(data));
         }
-        res.setHeader("Content-Type", "application/json");
         res.status(200).json(notices);
     } catch (error) {
-        console.error("MongoDB GET Error:", error);
-        res.status(500).send("Database Server Error");
+        console.error("Critical GET Error:", error);
+        res.status(500).json([]);
     }
 });
 
@@ -103,21 +96,31 @@ router.post("/notices", async (req, res) => {
             author:  req.body.author  || "Guest",
             type:    req.body.type    || "General"
         };
+
+        // Try to save to MongoDB with timeout
         if (mongoose.connection.readyState === 1) {
-            let newNotice = new Notice(newNoticeObj);
-            await newNotice.save();
-        }
-        fs.readFile(path.join(__dirname, "..", "data.json"), "utf8", (err, data) => {
-            if (!err) {
-                let notices = JSON.parse(data);
-                notices.push(newNoticeObj);
-                fs.writeFile(path.join(__dirname, "..", "data.json"), JSON.stringify(notices, null, 2), "utf8", () => {});
+            try {
+                let newNotice = new Notice(newNoticeObj);
+                await newNotice.save({ wtimeout: 3000 });
+            } catch (dbErr) {
+                console.error("MongoDB POST timeout/error, skipping DB inject:", dbErr.message);
             }
-        });
+        }
+
+        // Always save to JSON fallback file
+        try {
+            const data = fs.readFileSync(path.join(__dirname, "..", "data.json"), "utf8");
+            let notices = JSON.parse(data);
+            notices.push(newNoticeObj);
+            fs.writeFileSync(path.join(__dirname, "..", "data.json"), JSON.stringify(notices, null, 2), "utf8");
+        } catch (fsErr) {
+            console.error("File System POST Error:", fsErr.message);
+        }
+
         res.status(201).json(newNoticeObj);
     } catch (error) {
-        console.error("MongoDB POST Error:", error);
-        res.status(500).send("Database Error");
+        console.error("Critical POST Error:", error);
+        res.status(500).send("Server Error");
     }
 });
 
